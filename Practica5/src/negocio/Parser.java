@@ -1,10 +1,12 @@
 package negocio;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
 public class Parser {
@@ -30,13 +32,12 @@ public class Parser {
 		try {
 			Document facturaXml = lector.build(ruta);
 			Element raiz = facturaXml.getRootElement();
-
+			Namespace name = raiz.getNamespace();
 			fecha = raiz.getAttributeValue("fecha");
 			noCertificado = raiz.getAttributeValue("noCertificado");
-
-			cliente = new DatosCliente(raiz.getChild("cfdi:Receptor"));
-			cargoMes = new CargosMes(raiz.getChild("cfdi:Conceptos"),
-					raiz.getChild("cfdi:Impuestos"));
+			cliente = new DatosCliente(raiz.getChild("Receptor", name), name);
+			cargoMes = new CargosMes(raiz.getChild("Conceptos", name),
+					raiz.getChild("Impuestos", name), name);
 			cargoMes.setTotal(raiz.getAttributeValue("total"));
 
 		} catch (JDOMException e) {

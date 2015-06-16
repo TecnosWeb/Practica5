@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 public class CargosMes {
 	private Concepto[] conceptos;
@@ -11,7 +12,7 @@ public class CargosMes {
 	private String iva16;
 	private String total;
 
-	public CargosMes(Element conceptos, Element impuestos) {
+	public CargosMes(Element conceptos, Element impuestos, Namespace name) {
 		int i = 0;
 		List<Element> concepto = conceptos.getChildren();
 		this.conceptos = new Concepto[concepto.size()];
@@ -21,10 +22,10 @@ public class CargosMes {
 			i++;
 		}
 		
-		Element traslados = impuestos.getChild("cfdi:Traslados");
+		Element traslados = impuestos.getChild("Traslados", name);
 		List<Element> traslado = traslados.getChildren();
 		ieps3 = traslado.get(0).getAttributeValue("importe");
-		iva16 = traslado.get(3).getAttributeValue("iva");
+		iva16 = traslado.get(3).getAttributeValue("importe");
 	}
 
 	public Concepto[] getConceptos() {

@@ -1,6 +1,7 @@
 package negocio;
 
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 public class DatosCliente {
 	private String calle;
@@ -14,11 +15,11 @@ public class DatosCliente {
 	private String rfc;
 	private String nombre;
 
-	public DatosCliente(Element receptor) {
+	public DatosCliente(Element receptor, Namespace name) {
 		Element domicilio;
 		rfc = receptor.getAttributeValue("rfc");
 		nombre = receptor.getAttributeValue("nombre");
-		domicilio = receptor.getChild("cfdi:Domicilio");
+		domicilio = receptor.getChild("Domicilio", name);
 		calle = domicilio.getAttributeValue("calle");
 		colonia = domicilio.getAttributeValue("colonia");
 		noExterior = domicilio.getAttributeValue("noExterior");

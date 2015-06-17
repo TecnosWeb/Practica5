@@ -1,7 +1,8 @@
 package negocio;
 
-import java.io.FileWriter;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -15,7 +16,7 @@ public class Parser {
 	private String fecha;
 	private String noCertificado;
 
-	public void LeerXml(String ruta) {
+	public void LeerXml(String facturaXML) {
 		SAXBuilder lector = new SAXBuilder();
 
 		// Los siguientes datos no se encuentran en la factura utilizada:
@@ -30,7 +31,9 @@ public class Parser {
 		// String saldoCorte;
 
 		try {
-			Document facturaXml = lector.build(ruta);
+			
+			InputStream stream = new ByteArrayInputStream(facturaXML.getBytes("UTF-8"));
+			Document facturaXml = lector.build(stream);
 			Element raiz = facturaXml.getRootElement();
 			Namespace name = raiz.getNamespace();
 			fecha = raiz.getAttributeValue("fecha");
